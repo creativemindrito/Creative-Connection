@@ -1,0 +1,9 @@
+# Made by the app.
+Development/logboek.txt
+Development/archief/
+Development/namen.json
+Development/namen.kapot.json
+Development/namen.json.tmp
+# Your own device scripts.
+Turn on/*
+!Turn on/README.txt

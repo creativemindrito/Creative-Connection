@@ -1,0 +1,85 @@
+# EXAMPLE TURN-ON SCRIPT FOR CREATIVE CONNECTION
+# This file is text, so the app ignores it.
+# To use it, copy it and save the copy as "My device.ps1".
+# Test the copy on your desktop first.
+# Move it to the Turn on folder when it works.
+# The app stops a script after 60 seconds, so keep it fast.
+# Every piece has a short explanation. Change everything about "my device".
+
+# PIECE 1: the switch. -Controleer is a dry run that sends nothing.
+[CmdletBinding(PositionalBinding = $false)]
+param([switch]$Controleer)
+
+# PIECE 2: the device.
+# The house number is the last number of the first IP address.
+# These are example addresses from ranges kept for documentation. Use your own.
+$DeviceName = 'My device'
+$DeviceIp = '192.0.2.50'
+$DeviceMac = '00:00:5E:00:53:01'
+$ErrorActionPreference = 'Stop'
+
+# PIECE 3: the log.
+# It writes one line when the script is run directly.
+$LogFile = if ($PSScriptRoot) { Join-Path $PSScriptRoot '..\Development\logboek.txt' } else { $null }
+function Write-LogLine([string]$Result) {
+  # The app writes its own line, and a dry run writes nothing.
+  if ($Controleer -or $env:CREATIVE_CONNECTION -eq 'app' -or -not $LogFile) { return }
+  try {
+    # No Development folder means no log.
+    # A log problem must never stop the script.
+    if (-not (Test-Path -LiteralPath (Split-Path -Path $LogFile -Parent))) { return }
+    # Five parts separated by a Tab: time, result, name, script path, source.
+    $line = (@((Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $Result, $DeviceName, $PSCommandPath, 'direct') -join "`t") + "`r`n"
+    $bytes = (New-Object Text.UTF8Encoding $false).GetBytes($line)
+    # Add to the end of the file in one write.
+    # That way no line is ever lost.
+    try { $stream = New-Object IO.FileStream($LogFile, [IO.FileMode]::Append, [Security.AccessControl.FileSystemRights]::AppendData, [IO.FileShare]::ReadWrite, 4096, [IO.FileOptions]::None) }
+    catch { $stream = New-Object IO.FileStream($LogFile, [IO.FileMode]::Append, [IO.FileAccess]::Write, [IO.FileShare]::ReadWrite) }
+    try { $stream.Write($bytes, 0, $bytes.Length) } finally { $stream.Dispose() }
+  } catch { }
+}
+
+# PIECE 4: ask first, then send.
+# Never send when the device is already on.
+$result = $null
+try {
+  # A secret code is read here, from a protected place.
+  # Never type a secret code in this file.
+  # This example pings the device once. Use what your device understands.
+  $alreadyOn = Test-Connection -ComputerName $DeviceIp -Count 1 -Quiet
+  if ($Controleer) {
+    if ($alreadyOn) { 'Dry run: the device is already on. Nothing would be sent.' }
+    else { 'Dry run: a wake-up message would be sent. Nothing was sent.' }
+  } elseif ($alreadyOn) {
+    'The device is already on. Nothing sent.'
+    $result = 'already-on'
+  } else {
+    # PIECE 5: the letter. This is Wake-on-LAN.
+    # It is 6 bytes of 255, then the MAC address 16 times.
+    $mac = [byte[]]($DeviceMac -split '[-:]' | ForEach-Object { [Convert]::ToByte($_, 16) })
+    $packet = [byte[]](@(255) * 6 + @($mac) * 16)
+    $udp = New-Object Net.Sockets.UdpClient
+    # Broadcast reaches everyone on the home network.
+    $everyone = New-Object Net.IPEndPoint([Net.IPAddress]::Broadcast, 9)
+    try {
+      $udp.EnableBroadcast = $true
+      [void]$udp.Send($packet, $packet.Length, $everyone)
+    } finally { $udp.Close() }
+    'Wake-up message sent.'
+    $result = 'sent'
+  }
+} catch {
+  # Anything unexpected is logged as failed and ends with exit code 1.
+  Write-LogLine 'failed'
+  throw
+}
+
+# PIECE 6: the end.
+# Write the log line, then end with the exit code.
+# Exit code 11 means not found.
+# Use it for devices that can answer, like the PS5.
+# Never end a real device script with 12.
+# That code is only for practice scripts.
+Write-LogLine $result
+if ($result -eq 'already-on') { exit 10 }
+exit 0
