@@ -16,15 +16,15 @@ using Microsoft.Win32;
 [assembly: AssemblyTitle("Creative Connection Setup")]
 [assembly: AssemblyDescription("Installs Creative Connection for the current user")]
 [assembly: AssemblyProduct("Creative Connection")]
-[assembly: AssemblyVersion("1.0.0")]
-[assembly: AssemblyFileVersion("1.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0")]
+[assembly: AssemblyVersion("1.0.1")]
+[assembly: AssemblyFileVersion("1.0.1")]
+[assembly: AssemblyInformationalVersion("1.0.1")]
 
 namespace CreativeConnectionSetup
 {
     public static class Facts
     {
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.1";
         public const string Name = "Creative Connection";
         public const string AppFile = "Creative Connection.ps1";
         public const string StarterFile = "Creative Connection.exe";

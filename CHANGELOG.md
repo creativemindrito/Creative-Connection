@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+- The README and AGENTS.md use the download names as GitHub shows them:
+  Creative.Connection.Setup.exe and Creative.Connection.zip.
+
 ## 1.0.0
 
 - One window with a power button per device. Every .ps1 file in Turn on becomes a button.

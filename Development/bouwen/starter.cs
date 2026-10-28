@@ -7,9 +7,9 @@ using System.Windows.Forms;
 [assembly: AssemblyTitle("Creative Connection")]
 [assembly: AssemblyDescription("Starts Creative Connection.ps1 next to this file")]
 [assembly: AssemblyProduct("Creative Connection")]
-[assembly: AssemblyVersion("1.0.0")]
-[assembly: AssemblyFileVersion("1.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0")]
+[assembly: AssemblyVersion("1.0.1")]
+[assembly: AssemblyFileVersion("1.0.1")]
+[assembly: AssemblyInformationalVersion("1.0.1")]
 
 static class Starter
 {

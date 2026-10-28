@@ -73,7 +73,7 @@ Pick the one that feels right.
 ### 🧩 Way 1: the installer (easiest)
 
 1. Go to **Releases** on the right of this page and download
-   `Creative Connection Setup.exe`.
+   `Creative.Connection.Setup.exe`.
 2. Double-click it. You see this window:
 
 <p align="center"><img src="docs/install.png" alt="The installer with the folder, a Change button and two desktop shortcuts" width="362"></p>
@@ -92,7 +92,7 @@ scripts, log and names stay in that folder.
 ### 📦 Way 2: the whole folder (no installing)
 
 1. Press the green **Code** button at the top of this page and choose
-   **Download ZIP**. Or download `Creative Connection.zip` from **Releases**.
+   **Download ZIP**. Or download `Creative.Connection.zip` from **Releases**.
 2. Unpack it wherever you like, for example in Documents.
 3. Double-click `Creative Connection.exe`, the one with the little cloud house.
 
@@ -119,13 +119,13 @@ You don't have to take our word for it. Both `.exe` files are built from the cod
 
 - `Creative Connection.exe` only starts `Creative Connection.ps1` next to it. Its code
   is `starter.cs`, about 40 lines.
-- `Creative Connection Setup.exe` copies the app into your folder, makes the shortcuts
+- `Creative.Connection.Setup.exe` copies the app into your folder, makes the shortcuts
   and adds the app to the list of apps in Windows. Its code is `installatie.cs`.
 
 To check that both files really come from that code, run this in a PowerShell window
 in the app folder:
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File "Development\bouwen\bouw.ps1" -Check -Setup "$HOME\Downloads\Creative Connection Setup.exe"
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File "Development\bouwen\bouw.ps1" -Check -Setup "$HOME\Downloads\Creative.Connection.Setup.exe"
 
 It builds both files again from the code and compares them byte for byte. "RESULT:
 SAME" means they match exactly. You can also let your virus scanner check them, or
@@ -135,7 +135,7 @@ ask your AI agent to read the code first.
 one. You find them in `SHA256SUMS.txt`, next to the downloads on the Releases page.
 To see the fingerprint of your own download, run:
 
-    Get-FileHash "$HOME\Downloads\Creative Connection Setup.exe"
+    Get-FileHash "$HOME\Downloads\Creative.Connection.Setup.exe"
 
 When both fingerprints are the same, your file is exactly the one we made.
 

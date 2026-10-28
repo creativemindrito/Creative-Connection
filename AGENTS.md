@@ -39,8 +39,8 @@ Both are built from the code in Development\bouwen with the C# compiler of
 - Creative Connection.exe comes from starter.cs. It starts Creative Connection.ps1
   next to it with %SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe
   -NoProfile -ExecutionPolicy Bypass -File, and nothing else.
-- Creative Connection Setup.exe comes from installatie.cs, with every file of the
-  release inside it. It is on the Releases page, not in the repository. It installs
+- Creative.Connection.Setup.exe (the installer) comes from installatie.cs, with every
+  file of the release inside it. It is on the Releases page, not in the repository. It installs
   for the current user into %LOCALAPPDATA%\Programs\Creative Connection, without
   admin rights, or into another folder the owner chose. It adds two shortcuts in
   Start, Creative Connection (the app) and Creative Connection folder (its folder),
